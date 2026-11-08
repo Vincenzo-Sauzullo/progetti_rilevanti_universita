@@ -1,0 +1,27 @@
+version = 1
+revision = 2
+requires-python = ">=3.13"
+
+[[package]]
+name = "pip"
+version = "25.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz", hash = "sha256:272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200", size = 1939624, upload_time = "2025-04-26T09:45:36.149Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl", hash = "sha256:13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba", size = 1824948, upload_time = "2025-04-26T09:45:33.871Z" },
+]
+
+[[package]]
+name = "pokermind"
+version = "0.1.0"
+source = { virtual = "." }
+
+[package.dev-dependencies]
+dev = [
+    { name = "pip" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pip", specifier = ">=25.1" }]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - RAG Assessment Macchinari</title>
+    <style>
+        :root {
+            --primary-color: #007aff;
+            --primary-dark: #0062cc;
+            --neon-cyan: #12c8ff;
+            --neon-violet: #9a6bff;
+            --danger-color: #ff3b30;
+            --success-color: #34c759;
+            --bg-color: #edf1f6;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #5f6b7f;
+            --border-color: rgba(15, 23, 42, 0.12);
+            --shadow: 0 16px 38px rgba(15, 23, 42, 0.11);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background:
+                    radial-gradient(960px 420px at 10% -8%, rgba(0, 122, 255, 0.12), transparent 58%),
+                    radial-gradient(760px 360px at 90% 0%, rgba(18, 200, 255, 0.08), transparent 62%),
+                    linear-gradient(160deg, #f9fbfd 0%, #f0f4f8 48%, #edf2f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            color: var(--text-primary);
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                    repeating-linear-gradient(0deg, rgba(15, 23, 42, 0.012) 0px, rgba(15, 23, 42, 0.012) 1px, transparent 1px, transparent 24px),
+                    repeating-linear-gradient(90deg, rgba(15, 23, 42, 0.01) 0px, rgba(15, 23, 42, 0.01) 1px, transparent 1px, transparent 24px);
+            opacity: 0.14;
+        }
+
+        .login-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(15, 23, 42, 0.09);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 430px;
+            padding: 2rem;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .login-logo {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 122, 255, 0.22);
+            background: rgba(0, 122, 255, 0.13);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .login-header h1 {
+            font-size: 1.72rem;
+            font-weight: 670;
+            letter-spacing: -0.015em;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.2rem;
+        }
+
+        .login-header h1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -0.14rem;
+            margin: 0 auto;
+            width: 58%;
+            min-width: 86px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-violet));
+            box-shadow: 0 0 8px rgba(18, 200, 255, 0.34), 0 0 14px rgba(154, 107, 255, 0.2);
+            animation: neon-hue-shift 36s linear infinite;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .alert {
+            padding: 0.8rem 0.9rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-size: 0.86rem;
+            font-weight: 560;
+            border: 1px solid transparent;
+        }
+
+        .alert-danger {
+            background: rgba(255, 59, 48, 0.14);
+            color: #9b1c15;
+            border-color: rgba(255, 59, 48, 0.24);
+        }
+
+        .alert-success {
+            background: rgba(52, 199, 89, 0.16);
+            color: #0f7d43;
+            border-color: rgba(52, 199, 89, 0.22);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 610;
+            margin-bottom: 0.45rem;
+            color: #344257;
+            font-size: 0.88rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.82rem 0.95rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.96rem;
+            background: rgba(255, 255, 255, 0.88);
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #93a0b4;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(0, 122, 255, 0.6);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14);
+            background: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.84rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.94rem;
+            font-weight: 640;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(180deg, #1494ff 0%, var(--primary-color) 65%, #006de0 100%);
+            color: white;
+            box-shadow: 0 9px 22px rgba(0, 122, 255, 0.26);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(180deg, #2aa0ff 0%, #0b84ff 65%, #0071eb 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 11px 24px rgba(0, 122, 255, 0.3), 0 0 14px rgba(18, 200, 255, 0.24);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .credentials-hint {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.22);
+            border-radius: 12px;
+            padding: 0.85rem 0.9rem;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+        }
+
+        .credentials-hint h4 {
+            color: #005fca;
+            margin-bottom: 0.4rem;
+            font-size: 0.86rem;
+            font-weight: 640;
+        }
+
+        .credentials-hint p {
+            color: #18486b;
+            margin-bottom: 0.2rem;
+            line-height: 1.45;
+        }
+
+        .credentials-hint p:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes neon-hue-shift {
+            from {
+                filter: hue-rotate(0deg);
+            }
+            to {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 1rem;
+            }
+
+            .login-container {
+                border-radius: 18px;
+                padding: 1.3rem;
+            }
+
+            .login-header h1 {
+                font-size: 1.46rem;
+            }
+        }
+
+        :where(a, button, input, textarea, select):focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 0 0 4px rgba(18, 200, 255, 0.34), 0 0 12px rgba(154, 107, 255, 0.22);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .btn,
+            .form-group input {
+                transition: none !important;
+            }
+
+            .btn-primary:hover {
+                transform: none;
+            }
+
+            .login-header h1::after {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-header">
+        <div class="login-logo" aria-hidden="true">RA</div>
+        <h1>RAG Assessment</h1>
+        <p>Sistema di valutazione conformità macchinari</p>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        Credenziali non valide. Riprova.
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success">
+        Logout effettuato con successo.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autofocus placeholder="Inserisci username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Inserisci password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Accedi</button>
+    </form>
+
+    <div class="credentials-hint">
+        <h4>Credenziali di test</h4>
+        <p><strong>Admin:</strong> admin / admin123</p>
+        <p><strong>User:</strong> user / user123</p>
+    </div>
+
+    <div class="login-footer">
+        <p>RAG Assessment Macchinari &copy; 2026</p>
+    </div>
+</div>
+</body>
+</html>

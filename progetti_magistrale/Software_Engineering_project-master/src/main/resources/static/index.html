@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Assessment Macchinari</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<button type="button" id="sidebarMobileToggleBtn" class="sidebar-mobile-toggle" aria-label="Apri menu" aria-expanded="false" title="Apri menu">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+    </svg>
+</button>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+
+<nav class="navbar app-sidebar" id="appSidebar" aria-label="Navigazione principale">
+    <div class="sidebar-top">
+        <a href="#dashboard" id="sidebarHomeLink" class="nav-brand" aria-label="Vai alla dashboard">
+            <span class="logo" aria-hidden="true">RA</span>
+            <h1>RAG Assessment</h1>
+        </a>
+        <button type="button" id="sidebarToggleBtn" class="sidebar-toggle" aria-label="Comprimi sidebar" aria-pressed="false" title="Comprimi sidebar">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="nav-links">
+        <a href="#dashboard" class="nav-link active" data-section="dashboard">
+            <span class="nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4.8 10.2 12 4.5l7.2 5.7v8.3a1.5 1.5 0 0 1-1.5 1.5h-3.9v-5.8H10.2V20H6.3a1.5 1.5 0 0 1-1.5-1.5v-8.3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                </svg>
+            </span>
+            <span class="nav-link__label">Dashboard</span>
+        </a>
+        <a href="#documents" class="nav-link" data-section="documents">
+            <span class="nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3.5h7.6L20 8.9V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7.5 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                    <path d="M14.5 3.5V8.8H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M9 13h6M9 16.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                </svg>
+            </span>
+            <span class="nav-link__label">Documenti</span>
+        </a>
+        <a href="#machines" class="nav-link" data-section="machines">
+            <span class="nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="3.1" stroke="currentColor" stroke-width="1.8"></circle>
+                    <path d="M12 2.7v2.2M12 19.1v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.7 12h2.2M19.1 12h2.2M4.4 19.6 6 18M18 6l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                </svg>
+            </span>
+            <span class="nav-link__label">Macchinari</span>
+        </a>
+        <a href="#chatbot" class="nav-link" data-section="chatbot">
+            <span class="nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5.8 6.2h12.4A1.8 1.8 0 0 1 20 8v7.2a1.8 1.8 0 0 1-1.8 1.8h-5.3L9.6 20v-3h-3.8A1.8 1.8 0 0 1 4 15.2V8a1.8 1.8 0 0 1 1.8-1.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                    <path d="M8.2 10.3h7.6M8.2 13.5h4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                </svg>
+            </span>
+            <span class="nav-link__label">Chatbot</span>
+        </a>
+        <a href="#assessments" class="nav-link" data-section="assessments">
+            <span class="nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3.5 19 6.6v5.1c0 4.3-2.9 7.8-7 8.8-4.1-1-7-4.5-7-8.8V6.6l7-3.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                    <path d="m8.8 12.1 2.1 2.1 4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </span>
+            <span class="nav-link__label">Assessment</span>
+        </a>
+    </div>
+
+    <div class="nav-user">
+        <div class="sidebar-user">
+            <span class="sidebar-user-avatar" aria-hidden="true">U</span>
+            <span id="username"></span>
+        </div>
+        <div class="sidebar-actions">
+            <button type="button" id="themeToggleBtn" class="theme-toggle" aria-label="Attiva tema scuro" aria-pressed="false" title="Cambia tema">
+                <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+            </button>
+            <a href="/logout" class="btn btn-logout sidebar-logout" title="Logout">
+                <span class="nav-link__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M10 4.5h-3A1.5 1.5 0 0 0 5.5 6v12A1.5 1.5 0 0 0 7 19.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                        <path d="M14.5 8.3 19 12l-4.5 3.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10 12h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg>
+                </span>
+                <span class="nav-link__label">Logout</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <!-- Sezione Dashboard -->
+    <section id="dashboard" class="section active">
+        <div class="section-header">
+            <h2>Dashboard Operativa</h2>
+            <p>Panoramica rapida di statistiche, rischio assessment e attività recenti</p>
+        </div>
+
+        <div class="stats-grid" aria-label="Statistiche piattaforma">
+            <article class="stat-card">
+                <div class="stat-card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7 3.5h7.6L20 8.9V19a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 6 19V5A1.5 1.5 0 0 1 7.5 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                        <path d="M14.5 3.5V8.8H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 13h6M9 16.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <div class="stat-value" id="statDocumentsCount" aria-live="polite">0</div>
+                <p class="stat-label">Documenti caricati</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3.1" stroke="currentColor" stroke-width="1.8"></circle>
+                        <path d="M12 2.7v2.2M12 19.1v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.7 12h2.2M19.1 12h2.2M4.4 19.6 6 18M18 6l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <div class="stat-value" id="statMachinesCount" aria-live="polite">0</div>
+                <p class="stat-label">Macchinari registrati</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7.5 4.5h9A1.5 1.5 0 0 1 18 6v13.5H6V6A1.5 1.5 0 0 1 7.5 4.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                        <path d="M9 8.5h6M9 12h6M9 15.5h3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <div class="stat-value" id="statAssessmentsCount" aria-live="polite">0</div>
+                <p class="stat-label">Assessment effettuati</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-card-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3.5 19 6.6v5.1c0 4.3-2.9 7.8-7 8.8-4.1-1-7-4.5-7-8.8V6.6l7-3.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                        <path d="m8.8 12.1 2.1 2.1 4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </div>
+                <div class="stat-value" id="statConformeCount" aria-live="polite">0</div>
+                <p class="stat-label">Assessment CONFORME</p>
+            </article>
+        </div>
+
+        <div class="dashboard-grid">
+            <article class="card dashboard-panel">
+                <h3>Distribuzione rischio assessment</h3>
+                <div id="dashboardRiskChart" class="dashboard-risk-chart" aria-live="polite"></div>
+            </article>
+            <article class="card dashboard-panel">
+                <h3>Attività recente</h3>
+                <ul id="dashboardRecentList" class="dashboard-recent-list" aria-live="polite"></ul>
+            </article>
+        </div>
+
+        <div class="dashboard-quick-actions" role="group" aria-label="Azioni rapide">
+            <button type="button" class="quick-action-card" data-quick-nav="documents">
+                <span class="quick-action-card__title">Carica documento</span>
+                <span class="quick-action-card__hint">Apri la sezione Documenti</span>
+            </button>
+            <button type="button" class="quick-action-card" data-quick-nav="machines">
+                <span class="quick-action-card__title">Aggiungi macchinario</span>
+                <span class="quick-action-card__hint">Apri la sezione Macchinari</span>
+            </button>
+            <button type="button" class="quick-action-card" data-quick-nav="chatbot">
+                <span class="quick-action-card__title">Avvia chatbot</span>
+                <span class="quick-action-card__hint">Apri la sezione Chatbot</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Sezione Documenti -->
+    <section id="documents" class="section">
+        <div class="section-header">
+            <h2>Gestione Documenti PDF</h2>
+            <p>Carica i regolamenti e la documentazione per il sistema RAG</p>
+        </div>
+
+        <div class="upload-area" id="dropZone">
+            <div class="upload-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 4.75h7.5L19 9.2v10.05A1.75 1.75 0 0 1 17.25 21h-10.5A1.75 1.75 0 0 1 5 19.25V6.5A1.75 1.75 0 0 1 6.75 4.75H7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+                    <path d="M14.5 4.75V9.2H19" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+                    <path d="M12 16.4V10.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                    <path d="m9.5 12.9 2.5-2.5 2.5 2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+            <h3>Carica documentazione PDF</h3>
+            <p class="upload-copy">Trascina i file nell'area di importazione per avviare indicizzazione e consultazione nel sistema RAG.</p>
+            <p class="upload-divider">oppure seleziona dal dispositivo</p>
+            <input type="file" id="fileInput" accept=".pdf" hidden>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                Seleziona File
+            </button>
+            <p class="upload-hint">Formato supportato: PDF. Dimensione massima 50 MB per file.</p>
+        </div>
+
+        <div class="upload-progress" id="uploadProgress" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="uploadStatus">Caricamento in corso...</p>
+        </div>
+
+        <div class="documents-list">
+            <h3>Documenti Caricati</h3>
+            <div class="table-container documents-table-container" data-mobile-layout="cards">
+                <table id="documentsTable" class="documents-table" aria-label="Elenco documenti caricati">
+                    <thead>
+                    <tr>
+                        <th>Nome File</th>
+                        <th>Dimensione</th>
+                        <th>Data Caricamento</th>
+                        <th>Stato</th>
+                        <th>Chunks</th>
+                        <th>Azioni</th>
+                    </tr>
+                    </thead>
+                    <tbody id="documentsBody">
+                    <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Macchinari -->
+    <section id="machines" class="section">
+        <div class="section-header">
+            <h2>Gestione Macchinari</h2>
+            <p>Aggiungi e gestisci i macchinari da analizzare</p>
+        </div>
+
+        <div class="card">
+            <h3 id="machineFormTitle">Nuovo Macchinario</h3>
+
+            <div class="ai-autofill-callout" aria-label="Compilazione automatica da manuale PDF (AI)">
+                <div class="ai-autofill-callout__text">
+                    <div class="ai-autofill-callout__title">
+                        <span class="badge badge-info">AI</span>
+                        <h4>Compila dal manuale PDF</h4>
+                    </div>
+                    <p>Carica il manuale del macchinario e l'AI pre-compila automaticamente questo form.</p>
+                    <p class="ai-autofill-callout__hint">Solo file PDF. I campi verranno pre-compilati e potrai modificarli prima di salvare.</p>
+                    <div class="ai-autofill-callout__status" id="machineManualStatus" role="status" aria-live="polite"></div>
+                </div>
+                <div class="ai-autofill-callout__actions">
+                    <input type="file" id="machineManualFileInput" accept=".pdf" hidden>
+                    <button type="button" id="machineManualUploadBtn" class="btn btn-secondary">
+                        Carica manuale PDF (AI)
+                    </button>
+                </div>
+            </div>
+
+            <form id="machineForm" class="form-grid">
+                <div class="form-group">
+                    <label for="machineName">Nome *</label>
+                    <input type="text" id="machineName" required placeholder="Es: Pressa Idraulica XY500">
+                </div>
+                <div class="form-group">
+                    <label for="machineProducer">Produttore</label>
+                    <input type="text" id="machineProducer" placeholder="Es: ABC Machinery">
+                </div>
+                <div class="form-group">
+                    <label for="machineModel">Modello</label>
+                    <input type="text" id="machineModel" placeholder="Es: XY500-PRO">
+                </div>
+                <div class="form-group">
+                    <label for="machineSerial">Numero di Serie</label>
+                    <input type="text" id="machineSerial" placeholder="Es: SN-2024-001234">
+                </div>
+                <div class="form-group">
+                    <label for="machineYear">Anno Produzione</label>
+                    <input type="number" id="machineYear" min="1900" max="2100" placeholder="Es: 2024">
+                </div>
+                <div class="form-group">
+                    <label for="machineCategory">Categoria</label>
+                    <select id="machineCategory">
+                        <option value="">Seleziona categoria</option>
+                        <option value="Presse">Presse</option>
+                        <option value="Torni">Torni</option>
+                        <option value="Fresatrici">Fresatrici</option>
+                        <option value="Robot industriali">Robot industriali</option>
+                        <option value="Nastri trasportatori">Nastri trasportatori</option>
+                        <option value="Macchine utensili">Macchine utensili</option>
+                        <option value="Macchine per imballaggio">Macchine per imballaggio</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="machineDescription">Descrizione</label>
+                    <textarea id="machineDescription" rows="3" placeholder="Descrizione dettagliata del macchinario..."></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="machineSpecs">Specifiche Tecniche</label>
+                    <textarea id="machineSpecs" rows="4" placeholder="Potenza, dimensioni, funzionalità principali, dispositivi di sicurezza..."></textarea>
+                </div>
+                <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary" id="machineSubmitBtn">Aggiungi Macchinario</button>
+                    <button type="reset" class="btn btn-secondary" id="machineResetBtn">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="machines-list">
+            <h3>Macchinari Registrati</h3>
+            <p class="machines-dod-caption">Ogni card include la checklist di completamento (Definition of Done) a 4 step.</p>
+            <div class="machines-toolbar">
+                <label class="sr-only" for="machineSearchInput">Cerca macchinari</label>
+                <input type="search"
+                       id="machineSearchInput"
+                       class="machines-search-input"
+                       placeholder="Ricerca rapida: nome, modello, produttore, categoria..."
+                       autocomplete="off">
+                <div class="machines-view-toggle" role="group" aria-label="Seleziona vista macchinari">
+                    <button type="button"
+                            id="machineViewGridBtn"
+                            class="machine-view-btn"
+                            aria-label="Vista griglia"
+                            aria-pressed="false"
+                            title="Vista griglia">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="4.5" y="4.5" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                            <rect x="13.3" y="4.5" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                            <rect x="4.5" y="13.3" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                            <rect x="13.3" y="13.3" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            id="machineViewListBtn"
+                            class="machine-view-btn is-active"
+                            aria-label="Vista scorrimento"
+                            aria-pressed="true"
+                            title="Vista scorrimento">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5 7.2h14M5 12h14M5 16.8h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                            <circle cx="3.3" cy="7.2" r="0.9" fill="currentColor"></circle>
+                            <circle cx="3.3" cy="12" r="0.9" fill="currentColor"></circle>
+                            <circle cx="3.3" cy="16.8" r="0.9" fill="currentColor"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid-controls" id="machineGridControls" role="group" aria-label="Controlli griglia macchinari">
+                    <button type="button"
+                            id="machineGridZoomOutBtn"
+                            class="machine-view-btn grid-control-btn"
+                            aria-label="Riduci zoom griglia macchinari"
+                            title="Zoom out griglia macchinari">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5.2 12h13.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            id="machineGridZoomInBtn"
+                            class="machine-view-btn grid-control-btn"
+                            aria-label="Aumenta zoom griglia macchinari"
+                            title="Zoom in griglia macchinari">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5.2 12h13.6M12 5.2v13.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            id="machineGridExpandBtn"
+                            class="machine-view-btn grid-control-btn grid-expand-btn"
+                            aria-label="Espandi elenco macchinari"
+                            aria-expanded="false"
+                            title="Mostra tutti i macchinari">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M6.5 9.4L12 14.9L17.5 9.4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </button>
+                    <span id="machineGridInfo" class="grid-controls__info" aria-live="polite"></span>
+                </div>
+            </div>
+            <div class="machines-grid" id="machinesGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Assessment -->
+    <section id="assessments" class="section">
+        <div class="section-header">
+            <h2>Assessment Conformità</h2>
+            <p>Visualizza e gestisci gli assessment di conformità</p>
+        </div>
+
+        <details class="card assessments-velocity-card" id="assessmentsVelocityCard" open>
+            <summary class="assessments-velocity-card__summary">
+                <span>Andamento nel tempo</span>
+                <span class="assessments-velocity-card__meta">Ultime 8 settimane</span>
+            </summary>
+            <div class="assessments-velocity-card__body">
+                <div class="assessments-insights-grid">
+                    <section class="assessments-insight-panel assessments-insight-panel--xy" aria-label="Grafico andamento assessment">
+                        <div id="assessmentsVelocityChart" class="assessments-velocity-chart" aria-live="polite"></div>
+                    </section>
+
+                    <section class="assessments-insight-panel assessments-insight-panel--stack" aria-label="Heatmap salute macchinari e cadenza assessment">
+                        <div class="assessment-heatmap-head">
+                            <strong class="assessment-heatmap-title">Heatmap salute macchinari</strong>
+                            <label for="assessmentHeatmapWindowSelect"
+                                   class="assessment-heatmap-window-label">
+                                Ultimi
+                                <select id="assessmentHeatmapWindowSelect"
+                                        aria-label="Numero assessment recenti per heatmap"
+                                        class="assessment-heatmap-window-select">
+                                    <option value="3">3</option>
+                                    <option value="5" selected>5</option>
+                                    <option value="8">8</option>
+                                    <option value="12">12</option>
+                                </select>
+                                assessment
+                            </label>
+                        </div>
+                        <div id="assessmentHeatmapWrap" class="assessment-heatmap-scroll">
+                            <canvas id="assessmentHeatmapCanvas"
+                                    width="520"
+                                    height="280"
+                                    role="img"
+                                    aria-label="Heatmap stato assessment per macchinario"
+                                    class="assessment-heatmap-canvas"></canvas>
+                            <div id="assessmentHeatmapTooltip"
+                                 role="tooltip"
+                                 aria-hidden="true"
+                                 class="assessment-heatmap-tooltip"></div>
+                        </div>
+                        <div id="assessmentHeatmapLegend"
+                             aria-hidden="true"
+                             class="assessment-heatmap-legend"></div>
+                        <div id="assessmentHeatmapEmpty"
+                             class="assessment-heatmap-empty">
+                            Nessun macchinario disponibile per la heatmap.
+                        </div>
+
+                        <div class="assessment-cadence-block">
+                            <div class="assessment-cadence-head">
+                                <strong class="assessment-cadence-title">Tempo medio tra assessment</strong>
+                                <span id="assessmentCadenceTargetLabel" class="assessment-cadence-target">
+                                    Target: 30 giorni
+                                </span>
+                            </div>
+                            <div class="assessment-cadence-scroll">
+                                <div id="assessmentCadenceChart"
+                                     class="assessment-cadence-chart"
+                                     aria-live="polite"></div>
+                            </div>
+                            <div id="assessmentCadenceEmpty"
+                                 class="assessment-cadence-empty">
+                                Dati insufficienti per calcolare la frequenza.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </details>
+
+        <div class="assessments-shell">
+            <div class="assessments-list" id="assessmentsList">
+                <!-- Populated by JS -->
+            </div>
+
+            <aside class="assessments-sidebar" aria-label="Comandi assessment">
+                <div class="assessments-toolbar">
+                    <div class="assessments-toolbar__panel">
+                        <span class="assessments-toolbar__label">Vista</span>
+                        <div class="machines-view-toggle" role="group" aria-label="Seleziona vista assessment">
+                            <button type="button"
+                                    id="assessmentViewGridBtn"
+                                    class="machine-view-btn"
+                                    data-label="Griglia"
+                                    aria-label="Vista griglia assessment"
+                                    aria-pressed="false"
+                                    title="Vista griglia assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="4.5" y="4.5" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                                    <rect x="13.3" y="4.5" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                                    <rect x="4.5" y="13.3" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                                    <rect x="13.3" y="13.3" width="6.2" height="6.2" rx="1.2" stroke="currentColor" stroke-width="1.8"></rect>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                    id="assessmentViewScrollBtn"
+                                    class="machine-view-btn is-active"
+                                    data-label="Elenco"
+                                    aria-label="Vista scorrimento assessment"
+                                    aria-pressed="true"
+                                    title="Vista scorrimento assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5 7.2h14M5 12h14M5 16.8h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                                    <circle cx="3.3" cy="7.2" r="0.9" fill="currentColor"></circle>
+                                    <circle cx="3.3" cy="12" r="0.9" fill="currentColor"></circle>
+                                    <circle cx="3.3" cy="16.8" r="0.9" fill="currentColor"></circle>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                    id="assessmentViewKanbanBtn"
+                                    class="machine-view-btn"
+                                    data-label="Kanban"
+                                    aria-label="Vista Kanban assessment"
+                                    aria-pressed="false"
+                                    title="Vista Kanban assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="3.8" y="5" width="5" height="14" rx="1.1" stroke="currentColor" stroke-width="1.8"></rect>
+                                    <rect x="9.5" y="8" width="5" height="11" rx="1.1" stroke="currentColor" stroke-width="1.8"></rect>
+                                    <rect x="15.2" y="11" width="5" height="8" rx="1.1" stroke="currentColor" stroke-width="1.8"></rect>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="assessments-toolbar__panel">
+                        <span class="assessments-toolbar__label">Controlli</span>
+                        <div class="grid-controls" id="assessmentGridControls" role="group" aria-label="Controlli vista assessment">
+                            <button type="button"
+                                    id="assessmentGridZoomOutBtn"
+                                    class="machine-view-btn grid-control-btn"
+                                    data-label="Riduci zoom"
+                                    aria-label="Riduci zoom griglia assessment"
+                                    title="Zoom out griglia assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5.2 12h13.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                    id="assessmentGridZoomInBtn"
+                                    class="machine-view-btn grid-control-btn"
+                                    data-label="Aumenta zoom"
+                                    aria-label="Aumenta zoom griglia assessment"
+                                    title="Zoom in griglia assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M5.2 12h13.6M12 5.2v13.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                    id="assessmentGridExpandBtn"
+                                    class="machine-view-btn grid-control-btn grid-expand-btn"
+                                    data-label="Espandi elenco"
+                                    aria-label="Espandi elenco assessment"
+                                    aria-expanded="false"
+                                    title="Mostra tutti gli assessment">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M6.5 9.4L12 14.9L17.5 9.4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+                            <div id="assessmentKanbanControls"
+                                 class="assessment-kanban-controls"
+                                 hidden
+                                 aria-hidden="true">
+                                <label for="assessmentKanbanLimitInput" class="assessment-kanban-controls__label">Mostra</label>
+                                <input type="number"
+                                       id="assessmentKanbanLimitInput"
+                                       class="assessment-kanban-limit-input"
+                                       inputmode="numeric"
+                                       min="1"
+                                       max="200"
+                                       step="1"
+                                       value="5"
+                                       aria-label="Numero di assessment visibili per colonna nella vista Kanban">
+                                <span class="assessment-kanban-controls__suffix">per colonna</span>
+                                <button type="button"
+                                        id="assessmentKanbanApplyBtn"
+                                        class="assessment-kanban-apply-btn"
+                                        aria-label="Applica limite vista Kanban"
+                                        title="Applica limite vista Kanban">
+                                    Applica
+                                </button>
+                            </div>
+                            <span id="assessmentGridInfo" class="grid-controls__info" aria-live="polite"></span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Sezione Chatbot -->
+    <section id="chatbot" class="section">
+        <div class="section-header">
+            <h2>Chatbot</h2>
+            <p>Fai domande sui documenti caricati nella sezione "Documenti"</p>
+        </div>
+
+        <div class="chatbot-shell" aria-label="Chatbot">
+            <div class="chatbot-header">
+                <div class="chatbot-header__title">
+                    <div class="chatbot-avatar" aria-hidden="true">&#129302;</div>
+                    <div class="chatbot-header__text">
+                        <h3>Assistente</h3>
+                        <div class="chatbot-status" id="chatbotStatus" data-state="online" role="status" aria-live="polite" aria-atomic="true">
+                            <span class="chatbot-status__dot" aria-hidden="true"></span>
+                            <span class="chatbot-status__label" id="chatbotStatusLabel">online</span>
+                            <span class="chatbot-status__typing" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                            </span>
+                        </div>
+                        <div class="chatbot-header__subtitle" id="chatbotSubtitle">Risponde usando i documenti caricati (RAG).</div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="chatbotNewChatBtn" title="Riavvia chat">
+                    Riavvia chat
+                </button>
+            </div>
+
+            <div class="chatbot-hint" role="note">
+                Suggerimento: chiedi riferimenti, definizioni o requisiti presenti nei PDF caricati (es. marcatura CE, requisiti essenziali, procedure).
+            </div>
+
+            <div class="chatbot-export-status" id="chatbotExportStatus" role="status" aria-live="polite"></div>
+            <div class="chatbot-edit-status" id="chatbotEditStatus" role="status" aria-live="polite"></div>
+
+            <details class="chatbot-settings" id="chatbotSettings">
+                <summary>Impostazioni</summary>
+                <div class="chatbot-settings__panel">
+                    <label for="chatbotSystemPrompt" class="chatbot-settings__label">Istruzioni base (prompt di sistema)</label>
+                    <textarea id="chatbotSystemPrompt" class="chatbot-settings__textarea" rows="6" maxlength="12000" placeholder="Scrivi qui le regole che guidano il chatbot…"></textarea>
+                    <div class="chatbot-settings__actions">
+                        <span class="chatbot-settings__status" id="chatbotPromptStatus" role="status" aria-live="polite"></span>
+                        <button type="button" class="btn btn-secondary btn-sm" id="chatbotPromptResetBtn">Ripristina</button>
+                    </div>
+                    <p class="chatbot-settings__hint">Esempio: “Rispondi in modo tecnico e dettagliato” oppure “Rispondi in modo semplice e riassuntivo”.</p>
+                    <p class="chatbot-settings__hint">Nota: queste impostazioni vengono salvate in questo browser.</p>
+                </div>
+            </details>
+
+            <div class="chatbot-messages" id="chatbotMessages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Messaggi chat">
+            </div>
+
+            <form class="chatbot-composer" id="chatbotComposer" aria-label="Compositore messaggi" autocomplete="off">
+                <label class="sr-only" for="chatbotInput">Scrivi un messaggio</label>
+                <textarea id="chatbotInput" class="chat-input" rows="1" placeholder="Scrivi una domanda sui documenti…"></textarea>
+                <span class="chat-char-counter" id="chatCharCounter" aria-live="polite">0 / 2000</span>
+                <button type="submit" class="btn btn-primary chatbot-send-btn" id="chatbotSendBtn" aria-label="Invia messaggio" title="Invia">
+                    <span class="sr-only">Invia messaggio</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 12L19 4L14 12L19 20L4 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- Modal Assessment -->
+<div class="modal" id="assessmentModal">
+    <div class="modal-content modal-large">
+        <div class="modal-header">
+            <h2 id="modalTitle">Assessment Conformità</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="assessmentDetails">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal Chatbot CSV (UI only) -->
+<div class="modal" id="chatbotCsvModal" aria-hidden="true">
+    <div class="modal-content chatbot-csv-modal-content" role="dialog" aria-modal="true" aria-labelledby="chatbotCsvModalTitle">
+        <div class="modal-header">
+            <h2 id="chatbotCsvModalTitle">Salvare la chat in CSV prima del riavvio?</h2>
+            <button type="button" class="modal-close" id="chatbotCsvModalCloseBtn" aria-label="Chiudi">&times;</button>
+        </div>
+        <div class="modal-body chatbot-csv-modal-body">
+            <p>Stai per riavviare la conversazione del chatbot.</p>
+            <p>Vuoi salvare prima la chat in formato CSV?</p>
+
+            <div class="chatbot-csv-preview">
+                <h3>Anteprima contenuto file CSV</h3>
+                <ul>
+                    <li>Messaggi utente e risposte assistente in ordine cronologico</li>
+                    <li>Ruolo del messaggio (Utente/Chatbot) chiaramente distinto</li>
+                    <li>Data e ora della conversazione</li>
+                </ul>
+            </div>
+
+            <div class="chatbot-csv-actions">
+                <button type="button" class="btn btn-primary" id="chatbotCsvYesBtn">Sì, salva CSV e riavvia</button>
+                <button type="button" class="btn btn-secondary" id="chatbotCsvNoBtn">No, riavvia senza salvare</button>
+                <button type="button" class="btn btn-secondary" id="chatbotCsvCancelBtn">Annulla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="modal-content modal-small" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="modal-header">
+            <h2 id="confirmModalTitle">Conferma eliminazione</h2>
+            <button class="modal-close" id="confirmModalCloseBtn" aria-label="Chiudi">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmModalMessage"></p>
+            <div class="confirm-modal-actions">
+                <button class="btn btn-danger" id="confirmModalOkBtn">Elimina</button>
+                <button class="btn btn-secondary" id="confirmModalCancelBtn">Annulla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <p>Generazione assessment in corso...</p>
+    <p class="loading-hint">L'analisi potrebbe richiedere alcuni minuti</p>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
